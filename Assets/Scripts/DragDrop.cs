@@ -1,22 +1,34 @@
-using UnityEngine;
+    using UnityEngine;
 using UnityEngine.InputSystem;
+using LookingGlass;
 public class DragDrop : MonoBehaviour
 {
-    Vector3 MousePos;
+    Vector3 MousePos = Vector3.zero;
+    [SerializeField] HologramCamera Holoplay;
 
-    private Vector3 GetMousePos()
-    {
-        return Camera.main.WorldToScreenPoint(MousePos);
-    }
+ 
 
-    public void OnLeftButton ()
+    public void OnClick(InputAction.CallbackContext context)
     {
-        MousePos = Input.mousePosition - GetMousePos();
-        Debug.Log(MousePos);    
-    }
+        if (context.performed)
+        {
+            Debug.Log("Mouse clicked!: " + MousePos);
+            //Get Mouse Coords
+            MousePos = Input.mousePosition;
 
-    private void OnMouseDrag()
-    {
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - MousePos);
+            //Create a ray from screen coords into world
+            Ray raycast = Camera.main.ScreenPointToRay(MousePos); // doesn't work bc were not using Unity's camera 
+
+            RaycastHit hit;
+            //Check if ray hit anything
+            if (Physics.Raycast(raycast, out hit))
+            {
+                //If so raycasthit will have object's transform
+                hit.transform.position = MousePos;
+                
+            }
+
+
+        }
     }
 }
