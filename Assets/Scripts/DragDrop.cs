@@ -4,8 +4,6 @@ using LookingGlass;
 public class DragDrop : MonoBehaviour
 {
     Vector3 MousePos = Vector3.zero;
-    [SerializeField] HologramCamera Holoplay;
-
  
 
     public void OnClick(InputAction.CallbackContext context)
